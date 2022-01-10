@@ -1,0 +1,14 @@
+version: "3"
+services:
+  market:
+    image: postgres:14.1
+    container_name: "market-list"
+    environment:
+      - POSTGRES_DB=market
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=postgres
+      - TZ=GMT
+    volumes:
+      - "./postgres/postgres:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
