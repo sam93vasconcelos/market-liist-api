@@ -26,7 +26,7 @@ class ListMarketListsTest extends TestCase
         ]);
 
         MarketList::create([
-            'name' => 'Test',
+            'title' => 'Test',
             'user_id' => $authResponse['user']['id']
         ]);
 

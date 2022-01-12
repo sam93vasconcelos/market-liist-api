@@ -40,11 +40,13 @@ class MarketListsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'user_id' => 'required|exists:users,id'
+            'title' => 'required'
         ]);
 
-        MarketList::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+
+        MarketList::create($data);
         return response()->json([], 201);
     }
 

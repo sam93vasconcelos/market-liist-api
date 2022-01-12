@@ -22,7 +22,7 @@ class MarketListFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
+            'title' => $this->faker->name,
             'user_id' => 1
         ];
     }
