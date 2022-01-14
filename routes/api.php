@@ -27,4 +27,5 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::resource('/market-lists', MarketListsController::class)->middleware('auth:sanctum');
+Route::patch('market-lists/update-title/{marketList}', [MarketListsController::class, 'update'])->middleware('auth:sanctum');
 Route::resource('/list-items', ListItemsController::class)->middleware('auth:sanctum');

@@ -17,7 +17,7 @@ class MarketListsController extends Controller
     {
         $user = Auth::id();
 
-        $lists = MarketList::where('user_id', $user)->get();
+        $lists = MarketList::with('list_items')->where('user_id', $user)->get();
         return response()->json($lists);
     }
 
@@ -58,7 +58,8 @@ class MarketListsController extends Controller
      */
     public function show(MarketList $marketList)
     {
-        //
+        $marketList->load('list_items');
+        return response()->json($marketList);
     }
 
     /**
@@ -83,7 +84,7 @@ class MarketListsController extends Controller
     {
         $this->authorize('update', $marketList);
 
-        $marketList->name = $request->name;
+        $marketList->title = $request->title;
         $marketList->update();
 
         return response()->noContent();
@@ -97,6 +98,7 @@ class MarketListsController extends Controller
      */
     public function destroy(MarketList $marketList)
     {
+        //return response()->json(Auth::id() === $marketList->user_id);
         $this->authorize('delete', $marketList);
 
         $marketList->delete();

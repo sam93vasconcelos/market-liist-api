@@ -53,7 +53,7 @@ class MarketListPolicy
      */
     public function update(User $user, MarketList $marketList)
     {
-        return $user->id === $marketList->id;
+        return $user->id === $marketList->user_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class MarketListPolicy
      */
     public function delete(User $user, MarketList $marketList)
     {
-        return $user->id === $marketList->id;
+        return $user->id === $marketList->user_id;
     }
 
     /**
