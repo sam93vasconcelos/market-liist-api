@@ -22,8 +22,8 @@ class ListItemsController extends Controller
             'market_list_id' => 'required|exists:market_lists,id'
         ]);
 
-        ListItem::create($request->all());
-        return response()->noContent();
+        $list_item = ListItem::create($request->all());
+        return response()->json($list_item);
     }
 
     /**
@@ -68,6 +68,7 @@ class ListItemsController extends Controller
      */
     public function destroy(ListItem $listItem)
     {
-        //
+        $listItem->delete();
+        return response()->noContent();
     }
 }
