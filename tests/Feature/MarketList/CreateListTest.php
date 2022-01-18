@@ -26,7 +26,7 @@ class CreateListTest extends TestCase
 
 
         $response = $this->post('/api/market-lists', [
-            'name' => 'Test',
+            'title' => 'Test',
             'user_id' => $authResponse['user']['id']
         ], [
             'Authorization' => 'Bearer ' . $authResponse['access_token']

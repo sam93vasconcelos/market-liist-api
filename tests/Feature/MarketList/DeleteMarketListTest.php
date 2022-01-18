@@ -42,6 +42,8 @@ class DeleteMarketListTest extends TestCase
             'Authorization' => 'Bearer ' . $authResponse['access_token']
         ]);
 
+
+
         $response->assertStatus(204);
     }
 
@@ -61,7 +63,7 @@ class DeleteMarketListTest extends TestCase
         ]);
 
         MarketList::create([
-            'name' => 'test',
+            'title' => 'test',
             'user_id' => 2
         ]);
 

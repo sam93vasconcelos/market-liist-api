@@ -29,14 +29,14 @@ class UpdateMarketListTest extends TestCase
         $list = MarketList::where('user_id', $authResponse['user']['id'])->first();
 
         $this->put('/api/market-lists/' . $list->id, [
-            'name' => 'Updated Test'
+            'title' => 'Updated Test'
         ], [
             'Authorization' => 'Bearer ' . $authResponse['access_token']
         ]);
 
         $this->assertDatabaseHas('market_lists', [
             'id' => $list->id,
-            'name' => 'Updated Test'
+            'title' => 'Updated Test'
         ]);
     }
 
@@ -71,12 +71,12 @@ class UpdateMarketListTest extends TestCase
         ]);
 
         $list = MarketList::create([
-            'name' => 'test',
+            'title' => 'test',
             'user_id' => 2
         ]);
 
         $response = $this->put('/api/market-lists/' . $list->id, [
-            'name' => 'Updated Test'
+            'title' => 'Updated Test'
         ], [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $authResponse['access_token']

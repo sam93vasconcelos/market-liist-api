@@ -31,7 +31,7 @@ class CreateListItemTest extends TestCase
             'Authorization' => 'Bearer ' . $authResponse['access_token']
         ]);
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
     }
 
     public function test_an_unauthenticated_user_cannot_create_a_list_item()
