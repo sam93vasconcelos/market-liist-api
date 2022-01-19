@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\ListItem;
+use App\Models\MarketList;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -28,9 +29,9 @@ class ListItemPolicy
      * @param  \App\Models\ListItem  $listItem
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, ListItem $listItem)
+    public function view(User $user, MarketList $marketList)
     {
-        //
+        return $user->id == $marketList->user_id;
     }
 
     /**
@@ -39,9 +40,9 @@ class ListItemPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, MarketList $marketList)
     {
-        //
+        return $user->id == $marketList->user_id;
     }
 
     /**
@@ -51,9 +52,9 @@ class ListItemPolicy
      * @param  \App\Models\ListItem  $listItem
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ListItem $listItem)
+    public function update(User $user, MarketList $marketList)
     {
-        //
+        return $user->id == $marketList->user_id;
     }
 
     /**

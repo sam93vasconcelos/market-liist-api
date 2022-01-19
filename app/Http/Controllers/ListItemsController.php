@@ -16,6 +16,10 @@ class ListItemsController extends Controller
      */
     public function store(Request $request)
     {
+        $marketList = MarketList::findOrFail($request->market_list_id);
+
+        $this->authorize('create', $marketList);
+
         $request->validate([
             'name' => 'required',
             'qty' => 'required|integer',
@@ -34,18 +38,11 @@ class ListItemsController extends Controller
      */
     public function show(ListItem $listItem)
     {
-        //
-    }
+        $marketList = MarketList::findOrFail($listItem->market_list_id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ListItem  $listItem
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ListItem $listItem)
-    {
-        //
+        $this->authorize('view', $marketList);
+
+        return response()->json($listItem);
     }
 
     /**
@@ -57,7 +54,12 @@ class ListItemsController extends Controller
      */
     public function update(Request $request, ListItem $listItem)
     {
-        //
+        $marketList = MarketList::findOrFail($listItem->market_list_id);
+
+        $this->authorize('update', $marketList);
+
+        $listItem->update($request->all());
+        return response()->noContent();
     }
 
     /**
