@@ -32,6 +32,6 @@ class CreateListTest extends TestCase
             'Authorization' => 'Bearer ' . $authResponse['access_token']
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(204);
     }
 }

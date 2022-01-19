@@ -22,16 +22,6 @@ class MarketListsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -47,7 +37,7 @@ class MarketListsController extends Controller
         $data['user_id'] = Auth::id();
 
         MarketList::create($data);
-        return response()->json([], 201);
+        return response()->noContent();
     }
 
     /**
@@ -58,6 +48,8 @@ class MarketListsController extends Controller
      */
     public function show(MarketList $marketList)
     {
+        $this->authorize('view', $marketList);
+        
         $marketList->load('list_items');
         return response()->json($marketList);
     }

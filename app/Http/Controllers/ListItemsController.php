@@ -68,6 +68,10 @@ class ListItemsController extends Controller
      */
     public function destroy(ListItem $listItem)
     {
+        $marketList = MarketList::findOrFail($listItem->market_list_id);
+
+        $this->authorize('delete', $marketList);
+        
         $listItem->delete();
         return response()->noContent();
     }
