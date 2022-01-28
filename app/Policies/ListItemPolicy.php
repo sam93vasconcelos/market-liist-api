@@ -4,8 +4,10 @@ namespace App\Policies;
 
 use App\Models\ListItem;
 use App\Models\MarketList;
+use App\Models\Share;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Ramsey\Uuid\Type\Integer;
 
 class ListItemPolicy
 {
@@ -29,9 +31,9 @@ class ListItemPolicy
      * @param  \App\Models\ListItem  $listItem
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, MarketList $marketList)
+    public function view(User $user, ListItem $listItem)
     {
-        return $user->id == $marketList->user_id;
+        return $user->id == $listItem->user_id;
     }
 
     /**
@@ -40,9 +42,9 @@ class ListItemPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user, MarketList $marketList)
+    public function create(User $user, ListItem $listItem)
     {
-        return $user->id == $marketList->user_id;
+        return $user->id == $listItem->user_id;
     }
 
     /**
@@ -52,9 +54,9 @@ class ListItemPolicy
      * @param  \App\Models\ListItem  $listItem
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, MarketList $marketList)
+    public function update(User $user, ListItem $listItem)
     {
-        return $user->id == $marketList->user_id;
+        return $user->id == $listItem->user_id;
     }
 
     /**
@@ -64,9 +66,9 @@ class ListItemPolicy
      * @param  \App\Models\ListItem  $listItem
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ListItem $marketList)
+    public function delete(User $user, ListItem $listItem)
     {
-        return $user->id == $marketList->user_id;
+        return $user->id == $listItem->user_id;
     }
 
     /**
@@ -91,5 +93,31 @@ class ListItemPolicy
     public function forceDelete(User $user, ListItem $listItem)
     {
         //
+    }
+
+    public function done(User $user, ListItem $listItem)
+    {
+        $share = Share::where('user_id', $user->id)
+            ->where('market_list_id', $listItem->market_list_id)->count();
+
+
+        if ($share > 0) {
+            return true;
+        }
+
+        return $user->id === $listItem->user_id;
+    }
+
+    public function undone(User $user, ListItem $listItem)
+    {
+        $share = Share::where('user_id', $user->id)
+            ->where('market_list_id', $listItem->market_list_id)->count();
+
+
+        if ($share > 0) {
+            return true;
+        }
+
+        return $user->id === $listItem->user_id;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\MarketList;
+use App\Models\Share;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -30,6 +31,14 @@ class MarketListPolicy
      */
     public function view(User $user, MarketList $marketList)
     {
+        $share = Share::where('user_id', $user->id)
+            ->where('market_list_id', $marketList->id)->count();
+
+
+        if ($share > 0) {
+            return true;
+        }
+
         return $user->id == $marketList->user_id;
     }
 

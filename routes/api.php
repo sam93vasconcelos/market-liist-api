@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ListItemsController;
 use App\Http\Controllers\MarketListsController;
+use App\Http\Controllers\SharesController;
+use App\Http\Controllers\ToggleListItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +30,9 @@ Route::prefix('auth')->group(function () {
 
 Route::resource('/market-lists', MarketListsController::class)->middleware('auth:sanctum');
 Route::patch('market-lists/update-title/{marketList}', [MarketListsController::class, 'update'])->middleware('auth:sanctum');
+
 Route::resource('/list-items', ListItemsController::class)->middleware('auth:sanctum');
+Route::patch('/list-items/{listItem}/set-as-done', [ToggleListItemController::class, 'setAsDone'])->middleware('auth:sanctum');
+Route::patch('/list-items/{listItem}/set-as-undone', [ToggleListItemController::class, 'setAsUndone'])->middleware('auth:sanctum');
+
+Route::resource('/shares', SharesController::class)->middleware('auth:sanctum');

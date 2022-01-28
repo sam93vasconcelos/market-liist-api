@@ -48,4 +48,23 @@ class CreateListItemTest extends TestCase
 
         $response->assertStatus(401);
     }
+
+    /** @test */
+
+    public function an_user_can_show_a_list_item()
+    {
+        $this->seed();
+
+        $authResponse = $this->post('/api/auth/login', [
+            "email" => "teste@teste.com",
+            "password" => "password"
+        ]);
+
+        $response = $this->get('/api/list-items/1', [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $authResponse['access_token']
+        ]);
+
+        $response->assertStatus(200);
+    }
 }

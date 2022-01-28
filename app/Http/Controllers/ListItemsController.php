@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ListItem;
 use App\Models\MarketList;
+use App\Models\ListItem;
 use Illuminate\Http\Request;
 
 class ListItemsController extends Controller
@@ -16,9 +16,13 @@ class ListItemsController extends Controller
      */
     public function store(Request $request)
     {
-        $marketList = MarketList::findOrFail($request->market_list_id);
+        $listItem = app(ListItem::class);
 
-        $this->authorize('create', $marketList);
+        $marketList = MarketList::find($request->market_list_id);
+
+        $listItem['user_id'] = $marketList->user_id;
+
+        $this->authorize('create', $listItem);
 
         $request->validate([
             'name' => 'required',
@@ -38,9 +42,11 @@ class ListItemsController extends Controller
      */
     public function show(ListItem $listItem)
     {
-        $marketList = MarketList::findOrFail($listItem->market_list_id);
+        $listItem->load('market_list');
 
-        $this->authorize('view', $marketList);
+        $listItem['user_id'] = $listItem->market_list->user_id;
+
+        $this->authorize('create', $listItem);
 
         return response()->json($listItem);
     }
@@ -54,9 +60,11 @@ class ListItemsController extends Controller
      */
     public function update(Request $request, ListItem $listItem)
     {
-        $marketList = MarketList::findOrFail($listItem->market_list_id);
+        $listItem->load('market_list');
 
-        $this->authorize('update', $marketList);
+        $listItem['user_id'] = $listItem->market_list->user_id;
+
+        $this->authorize('update', $listItem);
 
         $listItem->update($request->all());
         return response()->noContent();
@@ -70,10 +78,12 @@ class ListItemsController extends Controller
      */
     public function destroy(ListItem $listItem)
     {
-        $marketList = MarketList::findOrFail($listItem->market_list_id);
+        $listItem->load('market_list');
 
-        $this->authorize('delete', $marketList);
-        
+        $listItem['user_id'] = $listItem->market_list->user_id;
+
+        $this->authorize('delete', $listItem);
+
         $listItem->delete();
         return response()->noContent();
     }
