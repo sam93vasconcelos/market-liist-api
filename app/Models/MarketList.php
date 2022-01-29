@@ -14,8 +14,13 @@ class MarketList extends Model
         'user_id'
     ];
 
+    public function shares()
+    {
+        return $this->hasMany(Share::class);
+    }
+
     public function list_items()
     {
-        return $this->hasMany(ListItem::class);
+        return $this->hasMany(ListItem::class)->orderBy('name');
     }
 }

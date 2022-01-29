@@ -15,9 +15,9 @@ class MarketListsController extends Controller
      */
     public function index()
     {
-        $user = Auth::id();
+        $user = Auth::user()->id;
 
-        $lists = MarketList::with('list_items')->where('user_id', $user)->get();
+        $lists = MarketList::with(['list_items', 'shares'])->where('user_id', $user)->get();
         return response()->json($lists);
     }
 
@@ -34,7 +34,7 @@ class MarketListsController extends Controller
         ]);
 
         $data = $request->all();
-        $data['user_id'] = Auth::id();
+        $data['user_id'] = Auth::user()->id;
 
         MarketList::create($data);
         return response()->noContent();
@@ -50,7 +50,7 @@ class MarketListsController extends Controller
     {
         $this->authorize('view', $marketList);
         
-        $marketList->load('list_items');
+        $marketList->load(['list_items', 'shares.user']);
         return response()->json($marketList);
     }
 
