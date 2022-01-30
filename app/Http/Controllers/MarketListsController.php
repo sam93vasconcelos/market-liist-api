@@ -50,7 +50,7 @@ class MarketListsController extends Controller
     {
         $this->authorize('view', $marketList);
         
-        $marketList->load(['list_items', 'shares.user']);
+        $marketList->load(['user', 'list_items', 'shares.user']);
         return response()->json($marketList);
     }
 

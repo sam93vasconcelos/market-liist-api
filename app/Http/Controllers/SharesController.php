@@ -19,7 +19,7 @@ class SharesController extends Controller
     {
         $user = Auth::id();
 
-        $shares = Share::where('user_id', $user)->get();
+        $shares = Share::with(['market_list', 'user'])->where('user_id', $user)->get();
         return response()->json($shares);
     }
 
@@ -51,12 +51,14 @@ class SharesController extends Controller
             return response()->json('', 403);
         }
         
-        Share::create([
+        $share = Share::create([
             'market_list_id' => $request->market_list_id,
             'user_id' => $user->id
         ]);
 
-        return response()->noContent();
+        $share->load('user');
+
+        return response()->json($share);
     }
 
     /**
